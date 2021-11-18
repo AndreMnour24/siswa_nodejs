@@ -4,13 +4,10 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, Sequelize) => {
   class kelas extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
       // define association here
+      kelas.hasMany(models.siswa, {foreignKey:"kelas_id"})
+      kelas.belongsToMany(models.guru, {foreignKey:"kelas_id",through:"guru_kelas"})
     }
   };
   kelas.init({
@@ -20,17 +17,17 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: true,
       type: Sequelize.INTEGER
     },
-    nama: {
+    namaKelas: {
       type: Sequelize.STRING,
-      allowNull: false,
-      unique: true
+      allowNull: false
     },
     guru: {
       type: Sequelize.STRING,
       allowNull: false
     },
-    size: {
-      type: Sequelize.INTEGER
+    mataPelajaran: {
+      type: Sequelize.STRING,
+      allowNull: false
     },
     created_at: {
       allowNull: false,
@@ -43,8 +40,12 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.DATE
     }
   }, {
-    sequelize,
-    modelName: 'kelas',
-  });
+      sequelize,
+      modelName: 'kelas',
+      freezeTableName: true,
+      createdAt: 'created_at',
+      updatedAt: 'updated_at',
+      deletedAt:'deleted_at'
+    });
   return kelas;
 };

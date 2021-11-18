@@ -3,13 +3,17 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, Sequelize) => {
-  class siswa extends Model {
+  class admin extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
     static associate(models) {
-    // define association here
-    siswa.belongsTo(models.kelas, {foreignKey:"kelas_id"})
+      // define association here
     }
   };
-  siswa.init({
+  admin.init({
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -18,29 +22,19 @@ module.exports = (sequelize, Sequelize) => {
     },
     nama: {
       type: Sequelize.STRING,
-      allowNull: false
-    },
-    umur: {
-      type: Sequelize.INTEGER,
       allowNull: false,
-      defaultValue: 10
     },
-    alamat: {
-      type: Sequelize.TEXT,
+    nip: {
+      type: Sequelize.STRING,
+      allowNull: false,
       unique: true
-    },
-    profpic: {
-      type: Sequelize.TEXT,
     },
     password: {
       type: Sequelize.STRING,
       allowNull: false
     },
-    kelas_id:{
-      type: Sequelize.INTEGER,
-      allowNull: false
-    },
     created_at: {
+      allowNull: false,
       type: Sequelize.DATE
     },
     updated_at: {
@@ -51,11 +45,11 @@ module.exports = (sequelize, Sequelize) => {
     }
   }, {
     sequelize,
-    modelName: 'siswa',
+    modelName: 'admin',
     freezeTableName: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at',
     deletedAt:'deleted_at'
   });
-  return siswa;
+  return admin;
 };

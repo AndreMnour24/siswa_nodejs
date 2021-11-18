@@ -2,45 +2,31 @@
 const {
   Model
 } = require('sequelize');
+const { Sequelize } = require('.');
 module.exports = (sequelize, Sequelize) => {
-  class siswa extends Model {
+  class guru extends Model {
+    
     static associate(models) {
-    // define association here
-    siswa.belongsTo(models.kelas, {foreignKey:"kelas_id"})
+      guru.belongsToMany(models.kelas, {foreignKey:"guru_id",through:"guru_kelas"})
     }
   };
-  siswa.init({
-    id: {
+  guru.init({
+    id:{
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
       type: Sequelize.INTEGER
     },
-    nama: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
-    umur: {
-      type: Sequelize.INTEGER,
+    nama_guru:{
       allowNull: false,
-      defaultValue: 10
+      type: Sequelize.STRING
     },
-    alamat: {
-      type: Sequelize.TEXT,
-      unique: true
-    },
-    profpic: {
-      type: Sequelize.TEXT,
-    },
-    password: {
+    mata_pelajaran: {
       type: Sequelize.STRING,
-      allowNull: false
-    },
-    kelas_id:{
-      type: Sequelize.INTEGER,
       allowNull: false
     },
     created_at: {
+      allowNull: false,
       type: Sequelize.DATE
     },
     updated_at: {
@@ -51,11 +37,12 @@ module.exports = (sequelize, Sequelize) => {
     }
   }, {
     sequelize,
-    modelName: 'siswa',
+    modelName: 'guru',
     freezeTableName: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at',
     deletedAt:'deleted_at'
-  });
-  return siswa;
+  }
+  );
+  return guru;
 };
